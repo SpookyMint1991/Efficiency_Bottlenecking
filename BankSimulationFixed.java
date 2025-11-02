@@ -19,15 +19,16 @@
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class BankSimulationFixed {
 
-    // Shared mutable state with zero protection. 🔥
     static class BankAccount {
-        private int balance; // cents would be smarter, but we're keeping it simple
+        private AtomicInteger balance;
 
+        // Is no longer unprotected with the use of AtomicInteger
         public BankAccount(int startingBalance) {
-            this.balance = startingBalance;
+            this.balance = new AtomicInteger(startingBalance);
         }
 
         // Multiple threads can NOT call this at the same time.
@@ -35,11 +36,11 @@ public class BankSimulationFixed {
         public synchronized void withdraw(int amount, String who) {
            
             // Check balance first
-            if (balance >= amount) {
+            if (balance.get() >= amount) {
                
-                int oldBalance = balance;
-                int newBalance = oldBalance - amount;
-                balance = newBalance;
+                AtomicInteger oldBalance = balance;
+                balance.addAndGet(-amount);
+                AtomicInteger newBalance = balance;
 
                 System.out.println(
                     who + " withdrew $" + amount +
@@ -56,7 +57,7 @@ public class BankSimulationFixed {
         }
 
         public int getBalance() {
-            return balance;
+            return balance.get();
         }
 
         //fakeWork() method was removed.
@@ -78,6 +79,8 @@ public class BankSimulationFixed {
             this.amountPerWithdrawal = amountPerWithdrawal;
             this.times = times;
         }
+
+        //As long as the threads are working as intented, the thread.sleep() doesn't really matter.
 
         @Override
         public void run() {
