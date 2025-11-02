@@ -38,9 +38,9 @@ public class BankSimulationFixed {
             // Check balance first
             if (balance.get() >= amount) {
                
-                AtomicInteger oldBalance = balance;
+                int oldBalance = balance.get();
                 balance.addAndGet(-amount);
-                AtomicInteger newBalance = balance;
+                int newBalance = balance.get();
 
                 System.out.println(
                     who + " withdrew $" + amount +
@@ -51,7 +51,7 @@ public class BankSimulationFixed {
                
                 System.out.println(
                     who + " tried to withdraw $" + amount +
-                    " but INSUFFICIENT FUNDS. (current balance = " + balance + ")"
+                    " but INSUFFICIENT FUNDS. (current balance = " + balance.get() + ")"
                 );
             }
         }

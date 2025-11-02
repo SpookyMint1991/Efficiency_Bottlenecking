@@ -10,7 +10,7 @@ BankSimulation was intentionally buggy for educational purposed. The program is 
 
 1. Solutions for thread stomping is to add the synchronized keyword to the withdraw() method to prevent the threads from using this method at the same time, making it impossible for the threads to access the balance amount before it updated.
 
-2. Solution for CPU cycle waste was to simply prevent thread stomping and do away with the fakeWork() method entirely. It is not needed in this code. And without thread stomping, the output is then reduced. But the code also sets an amount of times the threads must call the withdraw() method. The threads would reach an account balance within 23 method calls and the amount of times the code will output is 80 times. So 57 of the output streams would be exception handling saying that there is insufficent account balance. This also wastes CPU cycles. So reducing the amount of times the threads called the withdraw() method would solve this problem.
+2. Solution for CPU cycle waste was to simply prevent thread stomping and do away with the fakeWork() method entirely. It is not needed in this code. And without thread stomping, the output is then reduced. But the code also sets an amount of times the threads must call the withdraw() method. The threads would reach an account balance within 23 method calls and the amount of times the code will output is 80 times. So 57 of the output streams would be exception handling saying that there is INSUFFICIENT FUNDS. This also wastes CPU cycles. So reducing the amount of times the threads called the withdraw() method would solve this problem.
 
 // Levels of the Assignment
 
